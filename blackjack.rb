@@ -2,8 +2,6 @@ require_relative 'deck'
 require_relative 'player'
 
 class BlackJack
-  attr_accessor :player, :dealer, :deck, :bank
-
   PERMITED_ACTIONS ||= %i[dealer_turn add_card_to_player showdown start exit].freeze
 
   def initialize
@@ -27,6 +25,15 @@ class BlackJack
     make_bet(@dealer)
     player_turn
   end
+
+  def player_decision(key)
+    raise 'Hack Attempt!!! Exiting!!!' unless PERMITED_ACTIONS.include?(key)
+
+    @player_action.clear
+    send key
+  end
+
+  private
 
   def distribute_cards(player, number)
     number.times { player.cards << @deck.cards.shift }
@@ -57,13 +64,6 @@ class BlackJack
     else
       @board_state[:dealer_cards] = @dealer.cards.map { |_card| { value: '*', suit: '*' } }
     end
-  end
-
-  def player_decision(key)
-    raise 'Hack Attempt!!! Exiting!!!' unless PERMITED_ACTIONS.include?(key)
-
-    @player_action.clear
-    send key
   end
 
   def player_turn
