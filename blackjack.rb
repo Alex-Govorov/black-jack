@@ -93,7 +93,7 @@ class BlackJack
 
   def player_or_dealer
     players_score = { player: @player.cards_value, dealer: @dealer.cards_value }
-    winner = players_score.select { |_key, value| (21 - value) >= 0 }.max
+    winner = players_score.select { |_key, value| value <= 21 }.max_by { |_key, value| value }
     winner.first.to_s if winner
   end
 
