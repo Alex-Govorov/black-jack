@@ -74,7 +74,7 @@ class BlackJack
   end
 
   def dealer_turn
-    distribute_cards(@dealer, 1) if @dealer.cards_value < 17
+    distribute_cards(@dealer, 1) if @dealer.cards_value < 17 && @dealer.cards.count == 2
     player_turn
   end
 
